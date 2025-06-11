@@ -1,0 +1,34 @@
+{
+  "manifest_version": 3,
+  "name": "自定义鼠标效果",
+  "version": "1.0",
+  "description": "一键改变鼠标显示并添加滑动轨迹效果",
+  "permissions": ["storage", "activeTab"],
+  "action": {
+    "default_popup": "popup.html",
+    "default_title": "自定义鼠标效果",
+    "default_icon": {
+      "16": "images/icon16.png",
+      "48": "images/icon48.png",
+      "128": "images/icon128.png"
+    }
+  },
+  "icons": {
+    "16": "images/icon16.png",
+    "48": "images/icon48.png",
+    "128": "images/icon128.png"
+  },
+  "content_scripts": [
+    {
+      "matches": ["<all_urls>"],
+      "js": ["content.js"],
+      "css": ["styles.css"]
+    }
+  ],
+  "web_accessible_resources": [
+    {
+      "resources": ["images/*.png", "images/*.cur", "images/*.ani", "images/*.jpg", "images/*.gif", "images/*.svg"],
+      "matches": ["<all_urls>"]
+    }
+  ]
+} 

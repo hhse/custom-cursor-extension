@@ -1,0 +1,305 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>自定义鼠标效果</title>
+  <style>
+    body {
+      width: 320px;
+      padding: 15px;
+      font-family: 'Microsoft YaHei', sans-serif;
+    }
+    h2 {
+      text-align: center;
+      color: #333;
+      margin-bottom: 20px;
+    }
+    .section {
+      margin-bottom: 20px;
+    }
+    .cursor-options {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-bottom: 15px;
+    }
+    .cursor-option {
+      width: 40px;
+      height: 40px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.3s;
+    }
+    .cursor-option:hover, .cursor-option.active {
+      border-color: #4285f4;
+      box-shadow: 0 0 5px rgba(66, 133, 244, 0.5);
+    }
+    .cursor-option img {
+      max-width: 30px;
+      max-height: 30px;
+    }
+    .switch {
+      position: relative;
+      display: inline-block;
+      width: 50px;
+      height: 24px;
+    }
+    .switch input {
+      opacity: 0;
+      width: 0;
+      height: 0;
+    }
+    .slider {
+      position: absolute;
+      cursor: pointer;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background-color: #ccc;
+      transition: .4s;
+      border-radius: 24px;
+    }
+    .slider:before {
+      position: absolute;
+      content: "";
+      height: 16px;
+      width: 16px;
+      left: 4px;
+      bottom: 4px;
+      background-color: white;
+      transition: .4s;
+      border-radius: 50%;
+    }
+    input:checked + .slider {
+      background-color: #4285f4;
+    }
+    input:checked + .slider:before {
+      transform: translateX(26px);
+    }
+    .option-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 10px;
+    }
+    .color-picker {
+      width: 30px;
+      height: 30px;
+      padding: 0;
+      border: none;
+      cursor: pointer;
+    }
+    label {
+      font-size: 14px;
+    }
+    .custom-upload {
+      margin-top: 10px;
+    }
+    .upload-btn {
+      display: block;
+      margin-top: 5px;
+      width: 100%;
+      padding: 8px;
+      background-color: #f0f0f0;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+      cursor: pointer;
+      text-align: center;
+      font-size: 14px;
+      transition: all 0.3s;
+    }
+    .upload-btn:hover {
+      background-color: #e0e0e0;
+    }
+    .custom-cursor-list {
+      margin-top: 10px;
+      max-height: 100px;
+      overflow-y: auto;
+      border: 1px solid #eee;
+      padding: 5px;
+      border-radius: 4px;
+    }
+    .custom-cursor-item {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 5px;
+      border-bottom: 1px solid #eee;
+    }
+    .custom-cursor-item:last-child {
+      border-bottom: none;
+    }
+    .custom-cursor-name {
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      max-width: 180px;
+    }
+    .custom-cursor-actions {
+      display: flex;
+      gap: 5px;
+    }
+    .cursor-btn {
+      background: none;
+      border: none;
+      cursor: pointer;
+      color: #4285f4;
+      font-size: 12px;
+      padding: 0;
+    }
+    .cursor-btn.delete {
+      color: #f44336;
+    }
+    select {
+      padding: 5px;
+      border-radius: 4px;
+      border: 1px solid #ccc;
+      font-family: inherit;
+      font-size: 14px;
+      width: 150px;
+    }
+    .emoji-grid {
+      display: grid;
+      grid-template-columns: repeat(6, 1fr);
+      gap: 5px;
+      margin-top: 10px;
+    }
+    .emoji-item {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 30px;
+      height: 30px;
+      font-size: 18px;
+      border: 1px solid #eee;
+      border-radius: 5px;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    .emoji-item:hover, .emoji-item.active {
+      border-color: #4285f4;
+      background-color: #f5f5f5;
+    }
+    .custom-emoji {
+      display: flex;
+      align-items: center;
+      margin-top: 10px;
+    }
+    .custom-emoji input {
+      width: 50px;
+      text-align: center;
+      font-size: 18px;
+      padding: 5px;
+      margin-right: 10px;
+    }
+    .trail-type-options {
+      margin-top: 10px;
+    }
+    .trail-type-option {
+      display: inline-block;
+      padding: 5px 10px;
+      margin-right: 5px;
+      margin-bottom: 5px;
+      border: 1px solid #ccc;
+      border-radius: 15px;
+      font-size: 12px;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    .trail-type-option.active {
+      background-color: #4285f4;
+      color: white;
+      border-color: #4285f4;
+    }
+  </style>
+</head>
+<body>
+  <h2>自定义鼠标效果</h2>
+  
+  <div class="section">
+    <h3>鼠标样式</h3>
+    <div class="cursor-options">
+      <div class="cursor-option active" data-cursor="default">
+        <span>默认</span>
+      </div>
+      <div class="cursor-option" data-cursor="pointer1">
+        <img src="images/cursor1.png" alt="光标1">
+      </div>
+      <div class="cursor-option" data-cursor="pointer2">
+        <img src="images/cursor2.png" alt="光标2">
+      </div>
+      <div class="cursor-option" data-cursor="pointer3">
+        <img src="images/cursor3.png" alt="光标3">
+      </div>
+    </div>
+    
+    <div class="custom-upload">
+      <h4>自定义光标</h4>
+      <p style="font-size: 12px;">支持.cur和.ani格式的Windows光标文件</p>
+      <input type="file" id="cursor-upload" accept=".cur,.ani" style="display: none;">
+      <label for="cursor-upload" class="upload-btn">上传光标文件</label>
+      
+      <div id="custom-cursor-list" class="custom-cursor-list">
+        <!-- 自定义光标列表将在这里动态添加 -->
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <h3>轨迹效果</h3>
+    <div class="option-row">
+      <label>启用轨迹效果</label>
+      <label class="switch">
+        <input type="checkbox" id="trail-toggle">
+        <span class="slider"></span>
+      </label>
+    </div>
+    
+    <div class="option-row">
+      <label>轨迹类型</label>
+      <div class="trail-type-options">
+        <span class="trail-type-option active" data-type="dot">点状</span>
+        <span class="trail-type-option" data-type="emoji">表情</span>
+        <span class="trail-type-option" data-type="rainbow">彩虹</span>
+        <span class="trail-type-option" data-type="fade">渐隐</span>
+      </div>
+    </div>
+    
+    <!-- Emoji选择器，初始隐藏 -->
+    <div id="emoji-selector" style="display: none;">
+      <div class="option-row">
+        <label>选择表情</label>
+      </div>
+      <div class="emoji-grid" id="emoji-grid">
+        <!-- 表情将在这里动态添加 -->
+      </div>
+      <div class="custom-emoji">
+        <input type="text" id="custom-emoji-input" maxlength="2" placeholder="💖">
+        <button class="cursor-btn" id="apply-emoji">应用</button>
+      </div>
+    </div>
+    
+    <div class="option-row" id="color-option-row">
+      <label>轨迹颜色</label>
+      <input type="color" id="trail-color" class="color-picker" value="#4285f4">
+    </div>
+    
+    <div class="option-row">
+      <label>轨迹长度</label>
+      <input type="range" id="trail-length" min="5" max="50" value="20">
+    </div>
+    
+    <div class="option-row">
+      <label>轨迹消失速度</label>
+      <input type="range" id="trail-fade" min="1" max="10" value="5">
+    </div>
+  </div>
+
+  <script src="popup.js"></script>
+</body>
+</html> 

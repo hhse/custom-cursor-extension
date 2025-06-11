@@ -1,0 +1,14 @@
+{
+  "name": "custom-cursor-extension",
+  "version": "1.0.0",
+  "description": "自定义鼠标效果浏览器扩展",
+  "main": "generate_icons.js",
+  "scripts": {
+    "generate-icons": "node generate_icons.js"
+  },
+  "author": "",
+  "license": "MIT",
+  "dependencies": {
+    "sharp": "^0.32.1"
+  }
+} 

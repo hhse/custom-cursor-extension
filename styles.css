@@ -1,0 +1,12 @@
+/* 这个文件用于定义鼠标样式和轨迹效果的额外样式 */
+
+/* 鼠标样式定义在content.js中通过JavaScript动态添加 */
+
+/* 鼠标轨迹点样式 */
+.cursor-trail-dot {
+  position: absolute;
+  border-radius: 50%;
+  transform: translate(-50%, -50%);
+  pointer-events: none;
+  transition: opacity 0.1s ease;
+} 
